@@ -1,0 +1,221 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc} % character encoding - you don't need to understand this
+
+% below are a bunch of useful packages, it doesn't cost anything to include them all so you might as well
+\usepackage{amsmath}		% lets you input equations in math mode
+\usepackage{graphicx}		% lets you include images
+\usepackage{enumerate}		% lets you make lists
+\usepackage{hyperref}		% lets you make links
+\usepackage{subcaption}     % if you want to use subcaptions
+\usepackage[all]{hypcap}	% makes links refer to figures and not captions
+\usepackage{relsize}		% lets you use relative font sizes
+\usepackage{caption}        % lets you add captions
+\usepackage{indentfirst}
+\usepackage{array}          % lets you specify table column widths
+\usepackage[margin=1in, paperwidth=8.5in, paperheight=11in]{geometry} %I'll bet you can figure this one out
+\documentclass[letterpaper]{article}
+\usepackage{booktabs}
+\usepackage[margin=1in,showframe=true]{geometry}
+\usepackage[section]{placeins}
+
+% this line starts the actual document and text
+
+\begin{document}
+\title{Study Guide}
+\author{Qingmu ``Josh" Deng}
+\date{March 7th, 2018}
+
+\maketitle
+\section{Linear Systems of Equations}
+A \emph{\textbf{linear system of equation}} is a collection of multiple linear equations and variables that can be expressed in the following manner:
+
+\begin{align}
+    x +  y + z  &= 3 \\
+         y +  z &= 2 \\
+              z &= 1
+\end{align}
+
+Interestingly, the equations can be extracted to matrices in the form $\textbf{A}\vec{x} = \vec{b}$. The above system of equations can be expression in the following way:
+
+\[
+\begin{bmatrix}
+    1 & 1 & 0 \\
+    0 & 1 & 1 \\
+    0 & 0 & 1 
+\end{bmatrix}
+\begin{bmatrix}
+    x\\y\\z
+\end{bmatrix}
+=
+\begin{bmatrix}
+    3\\2\\1
+\end{bmatrix}
+\]
+
+\section{Row Reduction}
+To solve a linear system of equation, we would try to eliminate a variable in an equation with another equation. For example, we would subtract Equation (3) from Equation (2) to get $y = 1$. Then, we would subtract Equation (3) from Equation (2) to get $x = 1$. By the same token, we can row reduce a matrix to solve for the answers. When we subtract 1 times the third row from the second row and 1 times the third row and the second from the first row, the new matrix equation we get is:
+
+\[
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1 
+\end{bmatrix}
+\begin{bmatrix}
+    x\\y\\z
+\end{bmatrix}
+=
+\begin{bmatrix}
+    1\\1\\1
+\end{bmatrix}
+\]
+which still gives the same solution $x = 0, y = 0, z = 0$. However, by turning equations into matrices to be row reduced, we are able to perform the operation in a neater manner and also a manner that computers will be able to effectively handle. To perform row reduction in \textsc{Matlab}, use function rref(), which stands for the reduced row echolon form which has zeros below and above the main diagonal.
+
+\section{Linear Independence, Span, and Basis}
+Given a set of vector $\vec{v_1}, \vec{v_2}, \dots, \vec{v_n}$ in space $R^n$, the set of vector would span the whole $R^n$ if they are all linearly independent from each other. At the same time, they would a valid basis for the space $R6n$. When we arrange the set of vectors $\vec{v_1}, \vec{v_2}, \dots, \vec{v_n}$ into a matrix $\textbf{V}$, the matrix would be a square matrix with independent columns and rows. A quick way to test for linear independence in this case would be to row reduce the matrix $\textbf{V}$ and receive no zero columns or rows.e 
+
+
+\section{Geometry of Linear Transformation}
+When we multiply a vector $\vec{v}$ by a matrix $\textbf{A}$, there are different geometric interpretation of what $\textbf{A}$ is doing to $\textbf{v}$. For example, in 2D space, the following rotation matrix $\textbf{R}$ rotates a vector by $\theta$ degrees counterclockwise:
+
+\[
+\textbf{R}
+=
+\begin{bmatrix}
+    cos(\theta) & -sin(\theta)\\
+    sin(\theta) & cos(\theta)
+\end{bmatrix}
+\]
+
+The matrix $\textbf{L}$ is a reflection matrix that reflects a vector across $y = x$:
+\[
+\textbf{L}
+=
+\begin{bmatrix}
+    0 & 1\\
+    1 & 0
+\end{bmatrix}
+\]
+
+The matrix $\textbf{S}$ is a shear matrix that adds one row to another:
+\[
+\textbf{S}
+=
+\begin{bmatrix}
+    1 & 1\\
+    0 & 1
+\end{bmatrix}
+\]
+
+There's another matrix $\textbf{D}$ dilates/contracts in one direction and dilate/contracts in the other:
+\[
+\textbf{D}
+=
+\begin{bmatrix}
+    2 & 0\\
+    0 & \frac{1}{2}
+\end{bmatrix}
+\]
+
+\section{Orthogonal Projection}
+Given two vectors, sometimes we would want to find how much of one vector is in the direction of the other, so we employ the orthogonal projection to do the job. Say we have vectors $\vec{v}$ and $\vec{u}$ and want to find the projection of $\vec{u}$ in the direction of $\vec{v}$, $Proj_\vec{v}\vec{u}$, we first normalize $\vec{v}$, dot product it with $\vec{u}$, and again times it by a normalized $\hat{v}$.
+
+\begin{equation}
+    Proj_{\vec{v}}\vec{u}= (\frac{\vec{v}}{||\vec{v}||} \cdot \vec{u})\frac{\vec{v}}{||\vec{v}||} = (\hat{v} \cdot \vec{u})\hat{v}
+\end{equation}
+
+To generalize, $\vec{v}\vec{v}^T$ times a vector gives the vector's orthogonal projection onto the vector $\vec{v}$.
+
+\section{Orthogonal Matrices}
+By definition, an orthogonal matrix $\textbf{Q}$ is a square matrix whose product with its transpose is the identity matrix $I$. Essentially, its transpose is its inverse:
+\begin{equation}
+    QQ^{T} = I = QQ^{-1}    
+\end{equation}
+The rotational matrix $\textbf{R}$ mentioned above is such a matrix.
+
+\section{Determinant}
+Determinant is a tool used in the process of finding the inverse of a matrix. A zero determinant would mean a singular, or non-invertible, matrix. The inverse of a non-zero determinant would be the scaling factor of the inverse of the matrix. Determinants are only valid for square matrices.
+
+Determinant also lends itself to several interpretations:\\
+\begin{enumerate}
+   \item The recursive definition:
+   \begin{itemize}
+    \begin{equation}
+    det(\textbf{A}) = a_{11}det(A_{11}) - a_{12}det(A_{12}) + \dots - a_{1n}det(A_{1n})
+    \end{equation}
+    where $a_{ij}$ denotes the entry in the ith row and jth column and $A_{ij}$ denote a matrix with the ith row and jth colum removed
+   \end{itemize}
+   \item The permutation definition:
+   \begin{itemize}
+       Take the product of a matrix's main diagonal, and add if the number of permutations of the columns are odd or subtract if otherwise.
+   \end{itemize}
+   \item The geometric definition:
+   \begin{itemize}
+       The determinant of an $n \times n$ matrix is $\pm$ the n dimensional volume of the parallelopiped whose sides are the columns of A. $\pm$ is determined by the even or the odd number of reflections.
+    \end{itemize}
+\end{enumerate}
+
+\section{Eigenvalues, Eigenvectors and Linear Difference Equations}
+The eigenvector $\vec{v}$ is such a vector so that
+\begin{equation}
+    \text{A}\vec{v} = \lambda\vec{v}
+\end{equation}
+where $\lambda$ is the eigenvalue. In essence, eigenvector is such a vector that when it get multiplied by $\A$ it retains its original direction but get scaled in magnitude.
+
+To find the eigenvalues of a matrix, we solve the following determinant to 0:
+
+\[
+\begin{vmatrix}
+    a_{11}-\lambda & a_{12} & \dots & a_{1n} \\
+    a_{21} & a_{22}-\lambda & \dots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & \dots & a_{nn}-\lambda  
+\end{vmatrix}
+\]
+
+To find the eigenvector, solve for the nullspace of the following matrix for each eigenvalue:
+\[
+\begin{bmatrix}
+    a_{11}-\lambda & a_{12} & \dots & a_{1n} \\
+    a_{21} & a_{22}-\lambda & \dots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & \dots & a_{nn}-\lambda  
+\end{bmatrix}
+\]
+
+The full solution to a vector $\vec{x}$ is given by:
+\begin{equation}
+    \vec{x} = c_{1}\lambda_{1}\vec{v}_1 + c_{2}\lambda_{2}\vec{v}_{2} + \dots +  c_{m}\lambda_{m}\vec{v}_{m}
+\end{equation}
+with
+\begin{equation}
+    \vec{x}_{0} = c_{1}\vec{v}_1 + c_{2}\vec{v}_{2} + \dots +  c_{m}\vec{v}_{m}
+\end{equation}
+as the initial condition. When we multiply $x_0$ by $\textbf{A}^n$, we can thus break down the matrix multiplication into the simpler scalar multiplication
+\begin{equation}
+    \vec{x} = c_{1}\lambda_{1}^{n}\vec{v}_1 + c_{2}\lambda_{2}^{n}\vec{v}_{2} + \dots +  c_{m}\lambda_{m}^{n}\vec{v}_{m}
+\end{equation}
+
+\section{Diagonalization and Change of Basis}
+When we write all the eigenvalues and eigenvectors each in their own matrice, we would get the following equation:
+
+\begin{align}
+    AV &= V\Lambda \\
+    A &= V\Lambda V^{-1}
+\end{align}
+where $\Lambda$ is a fully diagonalized matrix, V is a matrix with eigenvectors as columns, and $V^-1$ is its inverse.
+$V$/$V^-1$ performs a change of basis so that we can change the input matrix into something easy to use with the diagonal matrix and change it back to the original coordinate system.
+
+\section{Markov Chains}
+A Markov matrix is a matrix description of probabilities. The ij entry of the matrix means the proportion of flow from the jth state to the ith state. It has the following special properties such as:
+
+\begin{enumerate}
+    \item No eigenvalues can be bigger than one.
+    \item One is always an eigenvalue.
+    \item The eigenvector corresponding to eigenvalue one has non-negative entries
+    \item Any eigenvector with eigenvalue other than one has entries summing to zero.
+\end{enumerate}
+
+
+\end{document}
